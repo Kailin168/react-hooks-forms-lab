@@ -11,10 +11,19 @@ function App() {
     setIsDarkMode((isDarkMode) => !isDarkMode);
   }
 
+  function newItemFromFormAdded(newItem){
+    setItems([...items, newItem])
+    }
+
+  function handleAddToCartClick(planToClickedItemIndex) {
+    items[planToClickedItemIndex].isInCart = !items[planToClickedItemIndex].isInCart;
+    setItems([...items])
+  }
+
   return (
     <div className={"App " + (isDarkMode ? "dark" : "light")}>
       <Header isDarkMode={isDarkMode} onDarkModeClick={handleDarkModeClick} />
-      <ShoppingList items={items} />
+      <ShoppingList items={items}  newItemFromFormAdded={newItemFromFormAdded} handleAddToCartClick={handleAddToCartClick}/>
     </div>
   );
 }

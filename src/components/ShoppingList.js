@@ -4,9 +4,10 @@ import Filter from "./Filter";
 import Item from "./Item";
 // import Search from "./Search";
 
-function ShoppingList({ items }) {
+function ShoppingList({ items, newItemFromFormAdded, handleAddToCartClick }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchedName, setSearchedName] = useState("")
+
 
   function handleCategoryChange(event) {
     setSelectedCategory(event.target.value);
@@ -15,28 +16,31 @@ function ShoppingList({ items }) {
   function handleSearchName(event) {
     setSearchedName(event.target.value);
   }
-  // const searchResults = items.filter((item) => {
-  //   return item.name.toLowerCase().includes(searchedName.toLowerCase());
-  // })
-
-  // const ShoppingList = searchResults.map((item) => (
-  //   <ShoppingList key={item.id} {...item} />
-  // ))
 
   const itemsToDisplay = items.filter((item) => {
-    if (selectedCategory === "All") return true;
-    return item.category === selectedCategory && item.name.toLowerCase().includes(searchedName.toLowerCase());
+    if (selectedCategory === "All" && item.name.toLowerCase().includes(searchedName.toLowerCase())) {
+      return true;
+    } else {
+      return item.category === selectedCategory && item.name.toLowerCase().includes(searchedName.toLowerCase());
+    }
 });
 
   return (
     <div className="ShoppingList">
-      <ItemForm />
+      <ItemForm onItemFormSubmit={newItemFromFormAdded}/>
       <Filter
         onCategoryChange={handleCategoryChange}
-        onSearchChange={handleSearchName} />
+        onSearchChange={handleSearchName} 
+        search={searchedName} 
+        />
       <ul className="Items">
-        {itemsToDisplay.map((item) => (
-          <Item key={item.id} name={item.name} category={item.category} />
+        {itemsToDisplay.map((item, index) => (
+          <Item key={item.id} 
+          name={item.name} 
+          category={item.category} 
+          planToClickedItemIndex={index} 
+          isInCart={item.isInCart} 
+          handleAddToCartClick={handleAddToCartClick}/>
         ))}
       </ul>
     </div>

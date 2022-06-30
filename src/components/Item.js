@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 
-function Item({ name, category }) {
-  const [isInCart, setIsInCart] = useState(false);
+function Item({ name, category, planToClickedItemIndex, isInCart, handleAddToCartClick }) {
+  // const [isInCart, setIsInCart] = useState(false);
 
-  function handleAddToCartClick() {
-    setIsInCart((isInCart) => !isInCart);
+  // function handleAddToCartClick() {
+  //   setIsInCart((isInCart) => !isInCart);
+  // }
+
+  function handleSelectingAddCart () {
+    handleAddToCartClick(planToClickedItemIndex)
   }
 
   return (
@@ -13,7 +17,7 @@ function Item({ name, category }) {
       <span className="category">{category}</span>
       <button
         className={isInCart ? "remove" : "add"}
-        onClick={handleAddToCartClick}
+        onClick={handleSelectingAddCart}
       >
         {isInCart ? "Remove From" : "Add to"} Cart
       </button>
